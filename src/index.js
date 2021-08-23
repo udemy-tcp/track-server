@@ -6,16 +6,16 @@ const bodyParser = require('body-parser')
 const authRoutes = require('./routes/authRoutes')
 const trackRoutes = require('./routes/trackRoutes')
 const requireAuth = require('./middlewares/requireAuth')
+const { DB_USER, DB_PASS, PORT } = require('./config/config')
 
 const app = express()
-const port = process.env.PORT || 3000
 
 app.use(bodyParser.json())
 app.use(authRoutes)
 app.use(trackRoutes)
 
 const mongoUri =
-  'mongodb+srv://admin:passwordpassword@cluster0.mzec1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+  `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.mzec1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -32,6 +32,6 @@ app.get('/', requireAuth, (req, res) => {
   res.send(`Your email: ${req.user.email}`)
 })
 
-app.listen(port, () => {
-  console.log(`Listening to port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Listening to port ${PORT}`)
 })
