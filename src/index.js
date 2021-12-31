@@ -16,11 +16,11 @@ app.use(trackRoutes)
 
 const mongoUri =
   `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.mzec1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-})
+
+// since mongoose v6.x useNewUrlParser, useUnifiedTopology, useFindAndModify, and useCreateIndex are no longer supported options.
+// migration note https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options
+mongoose.connect(mongoUri)
+
 mongoose.connection.on('connected', () => {
   console.log('Connected to mongo instance')
 })
